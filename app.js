@@ -25,23 +25,23 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.get('/map', function (req, res) {
+app.get('/mapper', function (req, res) {
   res.render('map');
 });
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
-app.get('/auth/google/callback',
+app.get('/map',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
-    res.redirect('/map');
+    res.redirect('/mapper');
   });
 
   passport.use(new GoogleStrategy({
       clientID: process.env.GOOGLE_CONSUMER_KEY,
       clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
-      callbackURL: "http://chennai-data-portal.herokuapp.com/auth/google/callback"
+      callbackURL: "http://chennai-data-portal.herokuapp.com/map"
     },
     function(accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
