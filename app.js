@@ -6,6 +6,7 @@ var compression = require("compression");
 var mongoose = require("mongoose");
 var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var User = require('./models/user.js');
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
@@ -51,12 +52,23 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user._id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
+  User.findOne({ id: id }, function(err, user) {
+    if (!user) {
+      var u = new User();
+      u.name = 'Test';
+      u.language = 'en';
+      u.maps = [];
+      u.notes = {};
+      u.save(function (err) {
+        done(err, u);
+      });
+    } else {
+      done(err, user);
+    }
   });
 });
 
