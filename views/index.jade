@@ -14,8 +14,8 @@ html
         li
           a(href="/map") Test Map
       h4 Log in and take notes
-      a(href="/login")
-        button Log in with Google
+      a(href="/auth/google")
+        button.btn Log in with Google
     #map
     script(type="text/javascript") var georeactor = { map: "google", div: "map", data: [], center: {lat: 13.05502, lng: 80.26315}, zoom: 13 };
     script(type="text/javascript", src="georeactor-client.js")

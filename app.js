@@ -5,7 +5,7 @@ var session = require("express-session");
 var compression = require("compression");
 var mongoose = require("mongoose");
 var passport = require("passport");
-var GoogleStrategy = require('passport-google').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
@@ -29,21 +29,27 @@ app.get('/map', function (req, res) {
   res.render('map');
 });
 
-app.get('/login', passport.authenticate('google'));
-app.get('/loginmap',
-  passport.authenticate('google', { successRedirect: '/map',
-                                    failureRedirect: '/login' }));
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
-passport.use(new GoogleStrategy({
-    returnURL: 'http://www.cag.org.in/loginmap',
-    realm: 'http://www.cag.org.in/'
-  },
-  function(identifier, profile, done) {
-    User.findOrCreate({ openId: identifier }, function(err, user) {
-      done(err, user);
-    });
-  }
-));
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/map');
+  });
+
+  passport.use(new GoogleStrategy({
+      clientID: process.env.GOOGLE_CONSUMER_KEY,
+      clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
+      callbackURL: "http://chennai-data-portal.herokuapp.com/auth/google/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+      process.nextTick(function () {
+        return done(null, profile);
+      });
+    }
+  ));
+
 
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
