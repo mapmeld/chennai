@@ -94,7 +94,18 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    User.findOrCreate({ id: profile.id }, function (err, user) {
+    User.findOne({ id: profile.id }, function (err, user) {
+      if (!user) {
+        user = new User();
+        user.id = profile.id;
+        user.name = 'Test';
+        user.language = 'en';
+        user.maps = [];
+        user.notes = {};
+        user.save(function (err) {
+          done(err, user);
+        });
+      }
       return done(err, user);
     });
   }
@@ -106,18 +117,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   User.findOne({ id: id }, function(err, user) {
-    if (!user) {
-      var u = new User();
-      u.name = 'Test';
-      u.language = 'en';
-      u.maps = [];
-      u.notes = {};
-      u.save(function (err) {
-        done(err, u);
-      });
-    } else {
-      done(err, user);
-    }
+    done(err, user);
   });
 });
 
