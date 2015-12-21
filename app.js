@@ -7,6 +7,7 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var User = require('./models/user.js');
+var Note = require('./models/note.js');
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
@@ -27,14 +28,54 @@ app.get('/', function (req, res) {
 });
 
 app.get('/plainmap', function (req, res) {
-  res.render('map', {
-    user: null
+  var myUser;
+  if (req.user) {
+    myUser = req.user;
+  } else {
+    myUser = { id: 'test' };
+  }
+  Note.find({ map: 'first', user: myUser.id }, function (err, notes) {
+    if (err) {
+      throw err;
+    }
+    res.render('map', {
+      user: myUser,
+      notes: notes
+    });
   });
 });
 
 app.get('/mapper', function (req, res) {
-  res.render('map', {
-    user: req.user || null
+  console.log(req.user);
+  if (!req.user) {
+    return res.redirect('/plainmap');
+  }
+  Note.find({ map: 'first', user: req.user.id }, function (err, notes) {
+    if (err) {
+      throw err;
+    }
+    res.render('map', {
+      user: req.user || null,
+      notes: notes
+    });
+  });
+});
+
+app.post('/savenote', function (req, res) {
+  Note.findOne({ map: req.body.layer, user: req.body.user, parcel: req.body.id }, function (err, n) {
+    if (err) {
+      return res.json(err);
+    }
+    if (!n) {
+      n = new Note();
+      n.user = req.body.user;
+      n.map = req.body.layer;
+      n.parcel = req.body.id;
+    }
+    n.note = req.body.note;
+    n.save(function (err) {
+      res.json(err || n._id);
+    });
   });
 });
 

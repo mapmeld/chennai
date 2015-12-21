@@ -1,5 +1,11 @@
 var initMap, map, selectFeature, fitBounds, updateVectorMap;
 
+var notesById = {};
+for (var n = 0; n < notes.length; n++) {
+  notesById[notes[n].parcel] = notes[n].note;
+}
+notes = [];
+
 (function() {
   initMap = function() {
     map = new google.maps.Map(document.getElementById(georeactor.div), {
@@ -50,29 +56,9 @@ var initMap, map, selectFeature, fitBounds, updateVectorMap;
 
         // get info on bounds and properties for each data file
         for (var f = 0; f < gj.features.length; f++) {
-          for (var key in gj.features[f].properties) {
-            var val = gj.features[f].properties[key];
-            if (!valuesForProperty[key]) {
-              valuesForProperty[key] = {
-                min: null,
-                max: null,
-                existCount: 0
-              };
-            }
-            if (!valuesForProperty[key].min || val < valuesForProperty[key].min) {
-              valuesForProperty[key].min = val;
-            }
-            if (!valuesForProperty[key].max || val > valuesForProperty[key].max) {
-              valuesForProperty[key].max = val;
-            }
-            if (val) {
-              valuesForProperty[key].existCount++;
-            }
-          }
-
+          gj.features[f].properties.userNote = notesById[gj.features[f].properties.SUR_ID] || '';
           var bounds = makeBounds(gj.features[f].geometry.coordinates);
           gj.features[f].properties.bounds = bounds;
-          gj.features[f].properties.userNote = '';
           if (!globalBounds) {
             globalBounds = bounds;
           } else {

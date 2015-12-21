@@ -1,4 +1,3 @@
-var valuesForProperty = {};
 var savedIDs = [];
 var tamilLabels = {
   'AREA': 'பகுதியில்',
@@ -37,22 +36,35 @@ function setSelectFeature(feature) {
       .append(val)
       .appendTo("ul#properties");
   });
-  $("<label>").text("Your Notes / குறிப்புகள்").appendTo("ul#properties");
-  $("<textarea></textarea>")
-    .val(feature.getProperty("userNote"))
-    .appendTo("ul#properties");
+  if ($("#loggedin").length) {
+    $("<label>").text("Your Notes / குறிப்புகள்").appendTo("ul#properties");
+    $("<textarea></textarea>")
+      .val(feature.getProperty("userNote"))
+      .appendTo("ul#properties");
+  }
   $("#save").show();
 }
 
 $("#save").click(function (e) {
   // all cases: update user note
-  selectFeature.setProperty("userNote", $("#properties textarea").val());
+  var myNote = $("#properties textarea").val();
+  if ($("#loggedin").length && (myNote || selectFeature.getProperty("userNote"))) {
+    selectFeature.setProperty("userNote", myNote);
+    $.post("/savenote", {
+      user: $("#loggedin").text(),
+      note: myNote,
+      layer: 'first',
+      id: currentID
+    }, function (response) {
+      console.log("save response: " + response);
+    });
+  }
   if (savedIDs.indexOf(currentID) > -1) {
     return;
   }
 
   // new cases: add to saved list
-  var saver = $("<li>").text("SUR ID: " + currentID);
+  var saver = $("<span>").text("SUR ID: " + currentID);
   var myFeature = selectFeature;
   var bounds = myFeature.getProperty("bounds");
   savedIDs.push(currentID);

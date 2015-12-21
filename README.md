@@ -1,6 +1,7 @@
 ## Chennai Data Experiment
 
-Displaying and receiving multiple map layers
+- Displaying and receiving multiple map layers
+- Sign-in with Google
 
 ## Install
 
@@ -11,6 +12,8 @@ git clone https://github.com/mapmeld/chennai.git chennai-data-portal
 cd chennai-data-portal
 npm install
 ```
+
+Set OAuth2 variables
 
 Running the app:
 
