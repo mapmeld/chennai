@@ -38,18 +38,27 @@ app.get('/map',
     res.redirect('/mapper');
   });
 
-  passport.use(new GoogleStrategy({
-      clientID: process.env.GOOGLE_CONSUMER_KEY,
-      clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
-      callbackURL: "http://chennai-data-portal.herokuapp.com/map"
-    },
-    function(accessToken, refreshToken, profile, done) {
-      process.nextTick(function () {
-        return done(null, profile);
-      });
-    }
-  ));
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CONSUMER_KEY,
+    clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
+    callbackURL: "http://chennai-data-portal.herokuapp.com/map"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function () {
+      return done(null, profile);
+    });
+  }
+));
 
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
 
 var server = app.listen(process.env.PORT || 8080, function() {
   var port = server.address().port;
