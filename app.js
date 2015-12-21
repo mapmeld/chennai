@@ -26,8 +26,16 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.get('/plainmap', function (req, res) {
+  res.render('map', {
+    user: null
+  });
+});
+
 app.get('/mapper', function (req, res) {
-  res.render('map');
+  res.render('map', {
+    user: req.user || null
+  });
 });
 
 app.get('/auth/google',
