@@ -48,7 +48,7 @@ function setSelectFeature(feature) {
 $("#save").click(function (e) {
   // all cases: update user note
   var myNote = $("#properties textarea").val();
-  if ($("#loggedin").length && (myNote || selectFeature.getProperty("userNote"))) {
+  if ($("#loggedin").length) {
     selectFeature.setProperty("userNote", myNote);
     $.post("/savenote", {
       user: $("#loggedin").text(),
