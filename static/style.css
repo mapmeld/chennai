@@ -129,3 +129,8 @@ ul#saved > li:nth-child(odd) {
   font-weight: bold;
   src: url(lib/NotoSansTamil/NotoSansTamil-Bold.ttf);
 }
+
+form.box {
+  border: 1px solid #444;
+  padding: 8px;
+}

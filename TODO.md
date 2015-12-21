@@ -1,0 +1,2 @@
+- Convert SHP.ZIP and GEOJSON to TOPOJSON before sending to S3
+- Better management tools

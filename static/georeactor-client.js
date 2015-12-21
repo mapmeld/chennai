@@ -43,6 +43,9 @@ notes = [];
         // consume GeoJSON or TopoJSON file
         var gj = null;
         var datafile = df.toLowerCase();
+        if (datafile.indexOf('amazonaws.com/') > -1) {
+          datafile += '.topojson';
+        }
         if (datafile.indexOf('topojson') > -1 || datafile.indexOf('topo.json') > -1) {
           var tj = JSON.parse(responseText);
           var key = Object.keys(tj.objects)[0];

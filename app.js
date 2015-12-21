@@ -8,6 +8,7 @@ var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var User = require('./models/user.js');
 var Note = require('./models/note.js');
+var Map = require('./models/map.js');
 var multer = require('multer');
 var s3 = require('multer-s3');
 
@@ -15,17 +16,16 @@ mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localho
 
 var upload = multer({
   storage: s3({
-    dirname: '.',
+    dirname: 'maps',
     bucket: 'chennai-test',
     secretAccessKey: process.env.AWS_SECRET_KEY,
     accessKeyId: process.env.AWS_ACCESS_KEY,
-    region: 'us-east-1',
+    region: 'ap-southeast-1',
     filename: function (req, file, cb) {
-      console.log(file);
-      cb(null, Date.now())
+      cb(null, Date.now());
     }
   })
-})
+});
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -40,13 +40,50 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (req, res) {
-  res.render('index', {
-    user: req.user || null
+  Map.find({}, function (err, maps) {
+    if (err) {
+      throw err;
+    }
+    res.render('index', {
+      user: req.user || null,
+      maps: maps
+    });
   });
 });
 
 app.post('/upload', upload.single('upload'), function (req, res) {
-  res.send('uploading?');
+  var m = new Map();
+  m.name = req.body.name || 'Unnamed Map';
+  m.datafiles = [
+    "https://s3-ap-southeast-1.amazonaws.com/chennai-test/" + req.file.key
+  ];
+  m.save(function (err) {
+    if (err) {
+      throw err;
+    }
+    res.redirect('/view/' + m._id);
+  });
+});
+
+app.get('/view/:mapid', function (req, res) {
+  Map.findById(req.params.mapid, function (err, mp) {
+    var myUser;
+    if (req.user) {
+      myUser = req.user;
+    } else {
+      myUser = { id: 'test' };
+    }
+    Note.find({ map: 'first', user: myUser.id }, function (err, notes) {
+      if (err) {
+        throw err;
+      }
+      res.render('map', {
+        user: myUser,
+        notes: notes,
+        map: mp
+      });
+    });
+  });
 });
 
 app.get('/plainmap', function (req, res) {

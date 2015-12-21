@@ -11,19 +11,26 @@ html
       p Experimental Data Homepage
       h4 Browse Maps
       ul#layers
-        li
-          a(href="/mapper") Parcel Map
+        for map in maps
+          li
+            a(href="/view/#{map._id}") #{map.name || 'Parcel Map'}
       h4 Upload Maps
       if user
-        form(action="/upload", method="POST")
-          small Attach one SHP.ZIP, GeoJSON, or TopoJSON file:
-          input(type="file", name="upload")
-          input.btn(type="submit")
-      else
         form(action="/upload", method="POST", enctype="multipart/form-data")
           small Attach one SHP.ZIP, GeoJSON, or TopoJSON file:
-          input(type="file")
+          input(type="file", name="upload")
+          input(type="text", name="name")
+          br
           input.btn(type="submit")
+      else
+        form.box(action="/upload", method="POST", enctype="multipart/form-data")
+          small Attach one SHP.ZIP, GeoJSON, or TopoJSON file:
+          input(type="file", name="upload")
+          small Give it a name
+          input(type="text", name="name")
+          br
+          input.btn(type="submit")
+          br
         h4 Log in to upload files and take notes
         a(href="/auth/google")
           button.btn Log in with Google
