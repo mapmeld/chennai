@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
+    title Chennai Data Portal
+    link(rel="stylesheet", href="style.css", type="text/css")
+    script(type="text/javascript", src="//code.jquery.com/jquery-1.11.3.min.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js")
+  body
+    #sidebar
+      h3 Chennai Data
+      h4#loading Loading...
+      ul#properties
+      button#save.btn Save
+      ul#saved
+    #map
+    script(type="text/javascript") var georeactor = { map: "google", div: "map", data: ["data/panai_sur.topojson"]};
+    script(type="text/javascript", src="georeactor-client.js")
+    script(type="text/javascript", src="georeactor-layers.js")
+    script(async, defer, src="//maps.googleapis.com/maps/api/js?callback=initMap")

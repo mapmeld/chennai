@@ -1,0 +1,33 @@
+{
+  "name": "chennai-data-portal",
+  "version": "1.0.0",
+  "description": "Chennai Data Portal experimental",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mapmeld/chennai.git"
+  },
+  "author": "Citizen consumer and civic Action Group (CAG)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mapmeld/chennai/issues"
+  },
+  "homepage": "https://github.com/mapmeld/chennai#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "compression": "^1.6.0",
+    "cookie-parser": "^1.4.0",
+    "crypto": "0.0.3",
+    "express": "^4.13.3",
+    "express-session": "^1.12.1",
+    "jade": "^1.11.0",
+    "mongoose": "^4.3.3",
+    "passport": "^0.3.2",
+    "passport-google": "^0.3.0",
+    "passport-local": "^1.0.0"
+  }
+}
