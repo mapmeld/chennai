@@ -67,7 +67,7 @@ form input {
   padding: 5px;
 }
 
-#save {
+#save, #remove {
   display: none;
 }
 
@@ -101,6 +101,21 @@ ul#saved > li:nth-child(odd) {
   background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
   background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+#remove.btn {
+  background: #db9834;
+  background-image: none;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+#remove.btn:hover {
+  background: #fdb03c;
+  background-image: none;
   text-decoration: none;
 }
 

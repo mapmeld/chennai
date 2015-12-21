@@ -78,6 +78,18 @@ app.post('/savenote', function (req, res) {
   });
 });
 
+app.post('/deletenote', function (req, res) {
+  Note.findOne({ map: req.body.layer, user: req.body.user, parcel: req.body.id }, function (err, n) {
+    if (n) {
+      n.remove(function (err) {
+        res.json(err || 'deleted');
+      });
+    } else {
+      res.json({});
+    }
+  });
+});
+
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['email'] }));
 

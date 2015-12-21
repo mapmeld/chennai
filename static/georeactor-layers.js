@@ -15,7 +15,7 @@ function setSelectFeature(feature) {
   $("ul#properties").html("");
   if (!feature) {
     // if user clicks outside mapped area
-    $("#save").hide();
+    $("#save, #remove").hide();
     return;
   }
 
@@ -43,13 +43,18 @@ function setSelectFeature(feature) {
       .appendTo("ul#properties");
   }
   $("#save").show();
+  if (savedIDs.indexOf(currentID) > -1) {
+    $("#remove").show();
+  } else {
+    $("#remove").hide();
+  }
 }
 
-$("#save").click(function (e) {
-  // all cases: update user note
+$("#save").click(function () {
+  // update user selection
   var myNote = $("#properties textarea").val();
+  selectFeature.setProperty("userNote", myNote);
   if ($("#loggedin").length) {
-    selectFeature.setProperty("userNote", myNote);
     $.post("/savenote", {
       user: $("#loggedin").text(),
       note: myNote,
@@ -74,10 +79,35 @@ $("#save").click(function (e) {
     setSelectFeature(myFeature);
     map.data.setStyle(updateVectorMap);
   });
-  $("<li>")
+  $("<li id='layer_" + currentID + "'>")
     .append(saver)
     .appendTo("ul#saved");
 
+  // make it possible to remove selection
+  $("#remove").show();
+
   // update appearance on map
+  map.data.setStyle(updateVectorMap);
+});
+
+$("#remove").click(function() {
+  var myNote = '';
+  selectFeature.setProperty("userNote", "");
+  if ($("#loggedin").length) {
+    $.post("/deletenote", {
+      user: $("#loggedin").text(),
+      layer: 'first',
+      id: currentID
+    }, function (response) {
+      console.log("delete response: " + response);
+    });
+  }
+
+  savedIDs.splice(savedIDs.indexOf(currentID), 1);
+  $("#layer_" + currentID).remove();
+
+  // update appearance on map
+  selectFeature = null;
+  setSelectFeature(null);
   map.data.setStyle(updateVectorMap);
 });

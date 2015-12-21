@@ -38,7 +38,6 @@ notes = [];
     }
 
     function makeRequestFor(datafile) {
-      // XMLHttpRequest without jQuery
       var df = datafile;
       $.get(datafile, function (responseText) {
         // consume GeoJSON or TopoJSON file
@@ -76,7 +75,7 @@ notes = [];
               fitBounds(bounds);
               map.data.setStyle(updateVectorMap);
             });
-            $("<li>")
+            $("<li id='layer_" + currentID + "'>")
               .append(saver)
               .appendTo("ul#saved");
           } else {
