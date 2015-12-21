@@ -30,7 +30,7 @@ app.get('/mapper', function (req, res) {
 });
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+  passport.authenticate('google', { scope: ['email'] }));
 
 app.get('/map',
   passport.authenticate('google', { failureRedirect: '/login' }),
