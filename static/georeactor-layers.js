@@ -76,7 +76,7 @@ $("#save").click(function (e) {
   });
   $("<li>")
     .append(saver)
-    .appendTo("ul#saved")
+    .appendTo("ul#saved");
 
   // update appearance on map
   map.data.setStyle(updateVectorMap);

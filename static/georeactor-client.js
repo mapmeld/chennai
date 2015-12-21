@@ -56,7 +56,6 @@ notes = [];
 
         // get info on bounds and properties for each data file
         for (var f = 0; f < gj.features.length; f++) {
-          gj.features[f].properties.userNote = notesById[gj.features[f].properties.SUR_ID] || '';
           var bounds = makeBounds(gj.features[f].geometry.coordinates);
           gj.features[f].properties.bounds = bounds;
           if (!globalBounds) {
@@ -66,6 +65,22 @@ notes = [];
             globalBounds[1] = Math.min(globalBounds[1], bounds[1]);
             globalBounds[2] = Math.max(globalBounds[2], bounds[2]);
             globalBounds[3] = Math.max(globalBounds[3], bounds[3]);
+          }
+
+          var currentID = gj.features[f].properties.SUR_ID;
+          if (notesById[currentID]) {
+            gj.features[f].properties.userNote = notesById[currentID];
+            var saver = $("<span>").text("SUR ID: " + currentID);
+            savedIDs.push(currentID);
+            saver.on("click", function () {
+              fitBounds(bounds);
+              map.data.setStyle(updateVectorMap);
+            });
+            $("<li>")
+              .append(saver)
+              .appendTo("ul#saved");
+          } else {
+            gj.features[f].properties.userNote = '';
           }
         }
         fitBounds(globalBounds);
