@@ -5,7 +5,7 @@ var session = require("express-session");
 var compression = require("compression");
 var mongoose = require("mongoose");
 var passport = require("passport");
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var User = require('./models/user.js');
 var Note = require('./models/note.js');
 
@@ -46,7 +46,6 @@ app.get('/plainmap', function (req, res) {
 });
 
 app.get('/mapper', function (req, res) {
-  console.log(req.user);
   if (!req.user) {
     return res.redirect('/plainmap');
   }
@@ -91,11 +90,12 @@ app.get('/map',
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CONSUMER_KEY,
     clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: "http://chennai-data-portal.herokuapp.com/map"
+    callbackURL: "http://chennai-data-portal.herokuapp.com/map",
+    passReqToCallback: true
   },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-      return done(null, profile);
+  function(request, accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ id: profile.id }, function (err, user) {
+      return done(err, user);
     });
   }
 ));
