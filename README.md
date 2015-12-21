@@ -13,7 +13,7 @@ cd chennai-data-portal
 npm install
 ```
 
-Set OAuth2 variables
+Set OAuth2 and S3 constants
 
 Running the app:
 

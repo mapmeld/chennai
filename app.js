@@ -8,8 +8,24 @@ var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var User = require('./models/user.js');
 var Note = require('./models/note.js');
+var multer = require('multer');
+var s3 = require('multer-s3');
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
+
+var upload = multer({
+  storage: s3({
+    dirname: '.',
+    bucket: 'chennai-test',
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    region: 'us-east-1',
+    filename: function (req, file, cb) {
+      console.log(file);
+      cb(null, Date.now())
+    }
+  })
+})
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -24,7 +40,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('index', {
+    user: req.user || null
+  });
+});
+
+app.post('/upload', upload.single('upload'), function (req, res) {
+  res.send('uploading?');
 });
 
 app.get('/plainmap', function (req, res) {

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/mapmeld/chennai#readme",
   "dependencies": {
+    "aws-sdk": "^2.2.25",
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
@@ -26,8 +27,12 @@
     "express-session": "^1.12.1",
     "jade": "^1.11.0",
     "mongoose": "^4.3.3",
+    "multer": "^1.1.0",
+    "multer-s3": "^1.4.1",
     "passport": "^0.3.2",
     "passport-google-oauth2": "^0.1.6",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "shpjs": "^3.3.1",
+    "topojson": "^1.6.19"
   }
 }
