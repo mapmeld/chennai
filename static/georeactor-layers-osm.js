@@ -26,7 +26,7 @@ function setSelectFeature(feature) {
     var key = propkeys[i];
     var value = feature.properties[key];
     if (['bounds', 'userNote'].indexOf(key) > -1) {
-      return;
+      break;
     }
     var combinedKey = key.toLowerCase();
     if (tamilLabels[key]) {
