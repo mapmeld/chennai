@@ -1,4 +1,4 @@
-var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures;
+var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat;
 
 var notesById = {};
 for (var n = 0; n < notes.length; n++) {
@@ -8,25 +8,26 @@ notes = [];
 
 (function() {
   initMap = function() {
+
     map = L.map(georeactor.div)
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
 
-/*
-    L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+
+    osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; OpenStreetMap contributors',
       maxZoom: 17
-    })
-    .addTo(map);*/
-    L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
+    });
+    sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
       attribution: 'Map data &copy; OpenStreetMap contributors; satellite from MapBox',
       maxZoom: 17
-    })
-    .addTo(map);
-/*
-    map.addListener('maptypeid_changed', function() {
-      map.data.setStyle(updateVectorMap);
+    }).addTo(map);
+    L.control.layers({
+      "Satellite": sat,
+      "OpenStreetMap": osm
+    }, {}).addTo(map);
+    map.on('baselayerchange', function() {
+      allFeatures.setStyle(updateVectorMap);
     });
-*/
 
     var globalBounds = null;
     fitBounds = function(bounds) {
@@ -152,14 +153,12 @@ notes = [];
     else if (selectFeature && feature === selectFeature) {
       props.fillOpacity = 0.2;
     }
-    /*
-    if (['satellite', 'hybrid'].indexOf(map.getMapTypeId() + '') > -1) {*/
+    if (sat._map) {
       props.color = '#fff';
       if (props.fillOpacity > 0) {
         props.fillOpacity *= 1.5;
       }
-    /*}
-    */
+    }
     return props;
   }
 })();
