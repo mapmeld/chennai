@@ -3,7 +3,7 @@ var tamilLabels = {
   'AREA': 'பகுதியில்',
   'PERIMETER': 'சுற்றளவு',
   'SUR_ID': 'ஐடி'
-}
+};
 
 function initSidebar() {
   // called when you finish loading first data layer

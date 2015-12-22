@@ -17,14 +17,14 @@ html
       h4 Upload Maps
       if user
         form(action="/upload", method="POST", enctype="multipart/form-data")
-          small Attach one SHP.ZIP, GeoJSON, or TopoJSON file:
+          small Attach one GeoJSON or TopoJSON file:
           input(type="file", name="upload")
           input(type="text", name="name")
           br
           input.btn(type="submit")
       else
         form.box(action="/upload", method="POST", enctype="multipart/form-data")
-          small Attach one SHP.ZIP, GeoJSON, or TopoJSON file:
+          small Attach one GeoJSON or TopoJSON file:
           input(type="file", name="upload")
           small Give it a name
           input(type="text", name="name")

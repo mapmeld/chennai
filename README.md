@@ -1,7 +1,8 @@
-## Chennai Data Experiment
+## Chennai Data Atlas
 
-- Displaying and receiving multiple map layers
+- Upload and display multiple map layers
 - Sign-in with Google
+- Users can comment on sources
 
 ## Install
 
@@ -13,7 +14,9 @@ cd chennai-data-portal
 npm install
 ```
 
-Set OAuth2 and S3 constants
+Set OAuth2 (Google+ API) and Amazon S3 environment variables on Heroku or server
+
+Set S3 bucket permissions to allow public access
 
 Running the app:
 

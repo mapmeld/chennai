@@ -43,17 +43,18 @@ notes = [];
         // consume GeoJSON or TopoJSON file
         var gj = null;
         var datafile = df.toLowerCase();
-        if (datafile.indexOf('amazonaws.com/') > -1) {
-          datafile += '.topojson';
+        try {
+          responseText = JSON.parse(responseText);
+        } catch (e) {
+          
+          return;
         }
-        if (datafile.indexOf('topojson') > -1 || datafile.indexOf('topo.json') > -1) {
+        if (responseText.objects && responseText.objects.length) {
           var tj = JSON.parse(responseText);
           var key = Object.keys(tj.objects)[0];
           gj = topojson.feature(tj, tj.objects[key]);
-        } else if (datafile.indexOf('geojson') > -1 || datafile.indexOf('geo.json') > -1) {
-          gj = JSON.parse(responseText);
         } else {
-          throw 'data type unknown: ' + datafile;
+          gj = JSON.parse(responseText);
         }
 
         // get info on bounds and properties for each data file
