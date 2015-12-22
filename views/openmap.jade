@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
+    title Chennai Data Portal
+    link(rel="stylesheet", type="text/css", href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css")
+    script(type="text/javascript", src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js")
+    link(rel="stylesheet", href="/style.css", type="text/css")
+    script(type="text/javascript", src="//code.jquery.com/jquery-1.11.3.min.js")
+    script(type="text/javascript", src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js")
+  body
+    #sidebar
+      if map
+        h3 #{map.name}
+      else
+        h3 Chennai Data
+      h4#loading Loading...
+      if user
+        h4
+          span Logged in as&nbsp;
+          span#loggedin #{user.id}
+      ul#properties
+      button#save.btn Save
+      button#remove.btn Remove
+      ul#saved
+    #map
+    if map
+      script(type="text/javascript") var georeactor = { map: "leaflet", div: "map", data: !{ JSON.stringify(map.datafiles) }};
+    else
+      script(type="text/javascript") var georeactor = { map: "leaflet", div: "map", data: ["data/panai_sur.topojson"]};
+    script(type="text/javascript") var notes = !{JSON.stringify(notes)}
+    script(type="text/javascript", src="/georeactor-client-osm.js")
+    script(type="text/javascript", src="/georeactor-layers-osm.js")

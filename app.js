@@ -77,7 +77,7 @@ app.get('/view/:mapid', function (req, res) {
       if (err) {
         throw err;
       }
-      res.render('map', {
+      res.render('openmap', {
         user: myUser,
         notes: notes,
         map: mp

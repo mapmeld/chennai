@@ -134,3 +134,10 @@ form.box {
   border: 1px solid #444;
   padding: 8px;
 }
+
+img.leaflet-tile {
+  -webkit-filter: hue-rotate(25deg) brightness(100%);
+  -moz-filter: hue-rotate(25deg) brightness(100%);
+  -o-filter: hue-rotate(25deg) brightness(100%);
+  filter: hue-rotate(25deg) brightness(100%);
+}
