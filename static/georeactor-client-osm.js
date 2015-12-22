@@ -86,7 +86,7 @@ notes = [];
             savedIDs.push(currentID);
             saver.on("click", function () {
               fitBounds(bounds);
-              map.data.setStyle(updateVectorMap);
+              allFeatures.setStyle(updateVectorMap);
             });
             $("<li id='layer_" + currentID + "'>")
               .append(saver)
