@@ -46,11 +46,11 @@ notes = [];
         try {
           responseText = JSON.parse(responseText);
         } catch (e) {
-          
+
           return;
         }
-        if (responseText.objects && responseText.objects.length) {
-          var tj = JSON.parse(responseText);
+        if (responseText.objects && Object.keys(responseText.objects).length) {
+          var tj = responseText;
           var key = Object.keys(tj.objects)[0];
           gj = topojson.feature(tj, tj.objects[key]);
         } else {
