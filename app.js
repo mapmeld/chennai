@@ -57,7 +57,7 @@ app.get('/uploader', function (req, res) {
   });
 });
 
-app.post('/upload', upload.single('upload'), function (req, res) {
+app.post('/uploadfile', upload.single('upload'), function (req, res) {
   var m = new Map();
   m.name = req.body.name || 'Unnamed Map';
   m.datafiles = [
