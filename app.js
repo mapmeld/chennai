@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
   });
 });
 
-app.get('/upload', function (req, res) {
+app.get('/uploader', function (req, res) {
   res.render('uploader', {
     user: req.user || null
   });
@@ -158,16 +158,16 @@ app.post('/deletenote', function (req, res) {
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['email'] }));
 
-app.get('/map',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+app.get('/upload',
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
-    res.redirect('/mapper');
+    res.redirect('/uploader');
   });
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CONSUMER_KEY,
     clientSecret: process.env.GOOGLE_CONSUMER_SECRET,
-    callbackURL: "http://chennai-data-portal.herokuapp.com/map",
+    callbackURL: "http://chennai-data-portal.herokuapp.com/upload",
     passReqToCallback: true
   },
   function(request, accessToken, refreshToken, profile, done) {
