@@ -51,6 +51,12 @@ app.get('/', function (req, res) {
   });
 });
 
+app.get('/upload', function (req, res) {
+  res.render('uploader', {
+    user: req.user || null
+  });
+});
+
 app.post('/upload', upload.single('upload'), function (req, res) {
   var m = new Map();
   m.name = req.body.name || 'Unnamed Map';

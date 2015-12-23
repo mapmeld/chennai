@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
+    title Chennai Data Portal
+    link(rel="stylesheet", href="/style.css", type="text/css")
+  body
+    #sidebar
+      h3 Chennai Data
+      h4 Upload Maps
+      form.box(action="/upload", method="POST", enctype="multipart/form-data")
+        input(type="file", name="upload")
+        small Give it a name
+        input(type="text", name="name")
+        br
+        input.btn(type="submit")
+        br
+    #map
+    script(type="text/javascript") var notes = []; var georeactor = { map: "google", div: "map", data: [], center: {lat: 13.05502, lng: 80.26315}, zoom: 13 };
+    script(type="text/javascript", src="/georeactor-client.js")
+    script(async, defer, src="//maps.googleapis.com/maps/api/js?callback=initMap")

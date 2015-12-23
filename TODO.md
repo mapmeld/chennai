@@ -1,8 +1,8 @@
-- Convert SHP.ZIP and GEOJSON to TOPOJSON before sending to S3
+- Convert SHP.ZIP and GEOJSON to TOPOJSON on client side before upload
 - Login and landing process from Google - maintaining user account
 - Upload permissions
 - Map + Notes UI
-- Re-add Sat Maps (MapBox or Google?)
+- Re-add Google?
 - Admin tools
 - Using CartoDB for much bigger dataset? Installing our own instance?
 - LetsEncrypt

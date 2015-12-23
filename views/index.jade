@@ -16,25 +16,13 @@ html
             a(href="/view/#{map._id}") #{map.name || 'Parcel Map'}
       h4 Upload Maps
       if user
-        form(action="/upload", method="POST", enctype="multipart/form-data")
-          small Attach one GeoJSON or TopoJSON file:
-          input(type="file", name="upload")
-          input(type="text", name="name")
-          br
-          input.btn(type="submit")
+        small We can map GeoJSON, TopoJSON, and shapefiles (SHP)
+        a(href="/upload")
+          button.btn Upload a Map
       else
-        form.box(action="/upload", method="POST", enctype="multipart/form-data")
-          small Attach one GeoJSON or TopoJSON file:
-          input(type="file", name="upload")
-          small Give it a name
-          input(type="text", name="name")
-          br
-          input.btn(type="submit")
-          br
-        h4 Log in to upload files and take notes
+        h4 Log in to write notes and upload files
         a(href="/auth/google")
           button.btn Log in with Google
-    #map
-    script(type="text/javascript") var notes = []; var georeactor = { map: "google", div: "map", data: [], center: {lat: 13.05502, lng: 80.26315}, zoom: 13 };
-    script(type="text/javascript", src="georeactor-client.js")
-    script(async, defer, src="//maps.googleapis.com/maps/api/js?callback=initMap")
+    canvas#map
+      img(src="/chennai-metro.jpg")
+    script(type="text/javascript", src="animate-home.js")
