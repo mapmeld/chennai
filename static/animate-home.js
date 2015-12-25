@@ -28,6 +28,6 @@ img.onload = function() {
       }
     }, 150);
 
-  }, 8000);
+  }, 13000);
 };
 img.src = "/chennai-metro.jpg";

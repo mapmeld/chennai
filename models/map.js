@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 
 var mapSchema = mongoose.Schema({
   datafiles: [String],
-  name: String
+  name: String,
+  userid: String
 });
 
 module.exports = mongoose.model('Map', mapSchema);

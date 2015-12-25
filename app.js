@@ -40,11 +40,31 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', function (req, res) {
-  Map.find({}, function (err, maps) {
+  Map.find({}).limit(8).exec(function (err, maps) {
     if (err) {
       throw err;
     }
     res.render('index', {
+      user: req.user || null,
+      maps: maps
+    });
+  });
+});
+
+app.get('/admin', function (req, res) {
+  Map.find({}, function (err, maps) {
+    res.render('admin', {
+      user: req.user || null
+    });
+  });
+});
+
+app.get('/profile', function (req, res) {
+  Map.find({ userid: (req.user || {id: 0}).id }, function (err, maps) {
+    if (err) {
+      return res.json(err);
+    }
+    res.render('profile', {
       user: req.user || null,
       maps: maps
     });
@@ -60,6 +80,7 @@ app.get('/uploader', function (req, res) {
 app.post('/uploadfile', upload.single('upload'), function (req, res) {
   var m = new Map();
   m.name = req.body.name || 'Unnamed Map';
+  m.userid = (req.user || {id: 0}).id;
   m.datafiles = [
     "https://s3-ap-southeast-1.amazonaws.com/chennai-test/" + req.file.key
   ];
