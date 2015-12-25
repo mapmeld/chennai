@@ -1,8 +1,10 @@
-var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat;
+var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat, mapJSONfile;
 
 var notesById = {};
-for (var n = 0; n < notes.length; n++) {
-  notesById[notes[n].parcel] = notes[n].note;
+if (typeof notes != 'undefined') {
+  for (var n = 0; n < notes.length; n++) {
+    notesById[notes[n].parcel] = notes[n].note;
+  }
 }
 notes = [];
 
@@ -47,75 +49,78 @@ notes = [];
       ));
     }
 
-    function makeRequestFor(datafile) {
-      var df = datafile;
-      $.get(datafile, function (responseText) {
-        // consume GeoJSON or TopoJSON file
-        var gj = null;
-        var datafile = df.toLowerCase();
+    mapJSONfile = function (responseText) {
+      // consume GeoJSON or TopoJSON file
+      var gj = null;
+      //var datafile = df.toLowerCase();
+      if (typeof responseText === 'string') {
         try {
           responseText = JSON.parse(responseText);
         } catch (e) {
-
           return;
         }
-        if (responseText.objects && Object.keys(responseText.objects).length) {
-          var tj = responseText;
-          var key = Object.keys(tj.objects)[0];
-          gj = topojson.feature(tj, tj.objects[key]);
+      }
+      if (responseText.objects && Object.keys(responseText.objects).length) {
+        var tj = responseText;
+        var key = Object.keys(tj.objects)[0];
+        gj = topojson.feature(tj, tj.objects[key]);
+      } else {
+        gj = responseText;
+      }
+
+      // get info on bounds and properties for each data file
+      for (var f = 0; f < gj.features.length; f++) {
+        var bounds = makeBounds(gj.features[f].geometry.coordinates);
+        gj.features[f].properties.bounds = bounds;
+        if (!globalBounds) {
+          globalBounds = bounds;
         } else {
-          gj = JSON.parse(responseText);
+          globalBounds[0] = Math.min(globalBounds[0], bounds[0]);
+          globalBounds[1] = Math.min(globalBounds[1], bounds[1]);
+          globalBounds[2] = Math.max(globalBounds[2], bounds[2]);
+          globalBounds[3] = Math.max(globalBounds[3], bounds[3]);
         }
 
-        // get info on bounds and properties for each data file
-        for (var f = 0; f < gj.features.length; f++) {
-          var bounds = makeBounds(gj.features[f].geometry.coordinates);
-          gj.features[f].properties.bounds = bounds;
-          if (!globalBounds) {
-            globalBounds = bounds;
-          } else {
-            globalBounds[0] = Math.min(globalBounds[0], bounds[0]);
-            globalBounds[1] = Math.min(globalBounds[1], bounds[1]);
-            globalBounds[2] = Math.max(globalBounds[2], bounds[2]);
-            globalBounds[3] = Math.max(globalBounds[3], bounds[3]);
-          }
-
-          var currentID = gj.features[f].properties.SUR_ID;
-          if (notesById[currentID]) {
-            gj.features[f].properties.userNote = notesById[currentID];
-            var saver = $("<span>").text("SUR ID: " + currentID);
-            savedIDs.push(currentID);
-            saver.on("click", function () {
-              fitBounds(bounds);
-              allFeatures.setStyle(updateVectorMap);
-            });
-            $("<li id='layer_" + currentID + "'>")
-              .append(saver)
-              .appendTo("ul#saved");
-          } else {
-            gj.features[f].properties.userNote = '';
-          }
+        var currentID = gj.features[f].properties.SUR_ID;
+        if (notesById[currentID]) {
+          gj.features[f].properties.userNote = notesById[currentID];
+          var saver = $("<span>").text("SUR ID: " + currentID);
+          savedIDs.push(currentID);
+          saver.on("click", function () {
+            fitBounds(bounds);
+            allFeatures.setStyle(updateVectorMap);
+          });
+          $("<li id='layer_" + currentID + "'>")
+            .append(saver)
+            .appendTo("ul#saved");
+        } else {
+          gj.features[f].properties.userNote = '';
         }
-        fitBounds(globalBounds);
+      }
+      fitBounds(globalBounds);
 
-        allFeatures = L.geoJson(gj, {
-          style: updateVectorMap,
-          onEachFeature: function (feature, layer) {
-            layer.on('click', function() {
-              fitBounds(feature.properties.bounds);
-              selectFeature = feature;
-              setSelectFeature(feature);
-              allFeatures.setStyle(updateVectorMap);
-            });
-          }
-        }).addTo(map);
-        map.on('click', function(event) {
-          selectFeature = null;
-          setSelectFeature(null);
-          allFeatures.setStyle(updateVectorMap);
-        });
-        initSidebar();
+      allFeatures = L.geoJson(gj, {
+        style: updateVectorMap,
+        onEachFeature: function (feature, layer) {
+          layer.on('click', function() {
+            fitBounds(feature.properties.bounds);
+            selectFeature = feature;
+            setSelectFeature(feature);
+            allFeatures.setStyle(updateVectorMap);
+          });
+        }
+      }).addTo(map);
+      map.on('click', function(event) {
+        selectFeature = null;
+        setSelectFeature(null);
+        allFeatures.setStyle(updateVectorMap);
       });
+      initSidebar();
+    };
+
+    function makeRequestFor(datafile) {
+      var df = datafile;
+      $.get(datafile, mapJSONfile);
     }
     for (var d = 0; d < georeactor.data.length; d++) {
       makeRequestFor(georeactor.data[d]);
