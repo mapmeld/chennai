@@ -18,11 +18,12 @@
   },
   "homepage": "http://chennai-data-portal.herokuapp.com",
   "dependencies": {
-    "aws-sdk": "^2.2.25",
+    "aws-sdk": "^2.2.26",
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
     "crypto": "0.0.3",
+    "csurf": "^1.8.3",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "jade": "^1.11.0",

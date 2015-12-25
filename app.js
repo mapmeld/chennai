@@ -10,14 +10,20 @@ var User = require('./models/user.js');
 var Note = require('./models/note.js');
 var Map = require('./models/map.js');
 var multer = require('multer');
-var s3 = require('multer-s3');
+var ms3 = require('multer-s3');
+
+var AWS = require('aws-sdk');
+AWS.config.secretAccessKey = process.env.AWS_SECRET_KEY;
+AWS.config.accessKeyId = process.env.AWS_ACCESS_KEY;
+var S3_BUCKET = 'chennai-test';
+var s3 = new AWS.S3();
 
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 
 var upload = multer({
-  storage: s3({
+  storage: ms3({
     dirname: 'maps',
-    bucket: 'chennai-test',
+    bucket: S3_BUCKET,
     secretAccessKey: process.env.AWS_SECRET_KEY,
     accessKeyId: process.env.AWS_ACCESS_KEY,
     region: 'ap-southeast-1',
@@ -31,7 +37,8 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express['static'](__dirname + '/static'));
-app.use(bodyParser.json());
+app.use(bodyParser({ limit: '50mb' }));
+//app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(compression());
 app.use(cookieParser());
@@ -89,6 +96,29 @@ app.post('/uploadfile', upload.single('upload'), function (req, res) {
       throw err;
     }
     res.redirect('/view/' + m._id);
+  });
+});
+
+app.post('/uploadgeo', function (req, res) {
+  var tstamp = '' + Date.now();
+  var params = { Bucket: S3_BUCKET, Key: tstamp, Body: req.body.geojson };
+  s3.putObject(params, function(err, data) {
+    if (err) {
+      res.json(err);
+    } else {
+      var m = new Map();
+      m.name = req.body.name || 'Unnamed Map';
+      m.userid = (req.user || {id: 0}).id;
+      m.datafiles = [
+        "https://s3-ap-southeast-1.amazonaws.com/chennai-test/" + tstamp
+      ];
+      m.save(function (err) {
+        if (err) {
+          throw err;
+        }
+        res.redirect('/view/' + m._id);
+      });
+    }
   });
 });
 

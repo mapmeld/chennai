@@ -14,7 +14,6 @@ notes = [];
     map = L.map(georeactor.div)
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
 
-
     osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; OpenStreetMap contributors',
       maxZoom: 17
@@ -56,6 +55,12 @@ notes = [];
       if (typeof responseText === 'string') {
         try {
           responseText = JSON.parse(responseText);
+          if (responseText.length) {
+            for (var i = 0; i < responseText.length; i++) {
+              mapJSONfile(responseText[i]);
+            }
+            return;
+          }
         } catch (e) {
           return;
         }
@@ -110,12 +115,16 @@ notes = [];
           });
         }
       }).addTo(map);
-      map.on('click', function(event) {
-        selectFeature = null;
-        setSelectFeature(null);
-        allFeatures.setStyle(updateVectorMap);
-      });
-      initSidebar();
+      if (typeof setSelectFeature === 'function') {
+        map.on('click', function(event) {
+          selectFeature = null;
+          setSelectFeature(null);
+          allFeatures.setStyle(updateVectorMap);
+        });
+      }
+      if (typeof initSidebar === 'function') {
+        initSidebar();
+      }
     };
 
     function makeRequestFor(datafile) {
@@ -151,7 +160,7 @@ notes = [];
       color: '#444',
       weight: 1
     }
-    if (savedIDs && savedIDs.length && savedIDs.indexOf(feature.properties.SUR_ID) > -1) {
+    if (typeof savedIDs === 'object' && savedIDs.length && savedIDs.indexOf(feature.properties.SUR_ID) > -1) {
       props.fillColor = '#00f';
       props.fillOpacity = 0.2;
     }

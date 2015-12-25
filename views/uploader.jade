@@ -13,9 +13,10 @@ html
     #sidebar
       h3 Chennai Data
       h4 Upload Maps
-      form.box(action="/uploadfile", method="POST", enctype="multipart/form-data")
+      form.box(action="/uploadgeo", method="POST")
         small Pick a shapefile, KML, GeoJSON, or TopoJSON to map
         input.file(type="file", name="upload")
+        br
         small Give it a name
         input(type="text", name="name")
         br
