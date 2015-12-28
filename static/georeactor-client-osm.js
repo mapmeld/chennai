@@ -14,21 +14,29 @@ notes = [];
     map = L.map(georeactor.div)
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
 
-    osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; OpenStreetMap contributors',
-      maxZoom: 17
-    });
-    sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
-      attribution: 'Map data &copy; OpenStreetMap contributors; satellite from MapBox',
-      maxZoom: 17
-    }).addTo(map);
-    L.control.layers({
-      "Satellite": sat,
-      "OpenStreetMap": osm
-    }, {}).addTo(map);
-    map.on('baselayerchange', function() {
-      allFeatures.setStyle(updateVectorMap);
-    });
+    if (!georeactor.tiles || !georeactor.tiles.length) {
+      osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; OpenStreetMap contributors',
+        maxZoom: 17
+      });
+      sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
+        attribution: 'Map data &copy; OpenStreetMap contributors; satellite from MapBox',
+        maxZoom: 17
+      }).addTo(map);
+      L.control.layers({
+        "Satellite": sat,
+        "OpenStreetMap": osm
+      }, {}).addTo(map);
+      map.on('baselayerchange', function() {
+        allFeatures.setStyle(updateVectorMap);
+      });
+    } else {
+      for(var t = 0; t < georeactor.tiles.length; t++) {
+        L.tileLayer(georeactor.tiles[t], { maxZoom: 17 }).addTo(map);
+      }
+      initTileView();
+      return;
+    }
 
     var globalBounds = null;
     fitBounds = function(bounds) {

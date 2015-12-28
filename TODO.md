@@ -1,3 +1,10 @@
+- Update admin and maps
+- Retain and display email as user id
+- Require name of map before submit
+- User profile shows your maps
+- Categories
+- Upload CSV / image?
+- Better homepage
 - Login and landing process from Google - maintaining user account
 - Upload permissions
 - Map + Notes UI
@@ -9,7 +16,10 @@
 
 Some different outcomes:
 
+- Created GeoNode: 188.166.176.239
+- Arun Ganesh made missing Chennai roads tileset updating with OSM, visible on /tile
 - CAG GitHub
+- CrowdMap / Ushahidi for reporting manholes, drains, and outflows? Current CrowdMap seems frustrating
 - Using CartoDB for much bigger dataset? Installing our own instance?
 - Data Atlas including multiple existing sources, assign category and color
 - Fix My Street / POST to existing city website

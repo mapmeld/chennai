@@ -58,6 +58,13 @@ app.get('/', function (req, res) {
   });
 });
 
+app.get('/tile', function (req, res) {
+  res.render('tiler', {
+    map: null,
+    user: req.user || null
+  });
+});
+
 app.get('/admin', function (req, res) {
   Map.find({}, function (err, maps) {
     res.render('admin', {
