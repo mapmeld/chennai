@@ -13,6 +13,7 @@ notes = [];
 
     map = L.map(georeactor.div)
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
+    new L.Hash(map);
 
     if (!georeactor.tiles || !georeactor.tiles.length) {
       osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {

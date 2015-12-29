@@ -24,5 +24,6 @@ html
       script(type="text/javascript") var georeactor = { map: "leaflet", div: "map", data: !{JSON.stringify(map.datafiles)}, tiles: !{ JSON.stringify(map.tilelayers || []) } }};
     else
       script(type="text/javascript") var georeactor = { map: "leaflet", div: "map", data: [], lat: 13.056235, lng: 80.25616, zoom: 12, tiles: ['http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', 'https://{s}.tiles.mapbox.com/v4/planemad.ba506c30/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiemdYSVVLRSJ9.g3lbg_eN0kztmsfIPxa9MQ']};
+    script(type="text/javascript", src="/lib/leaflet.hash.js")
     script(type="text/javascript", src="/georeactor-tiles-osm.js")
     script(type="text/javascript", src="/georeactor-client-osm.js")
