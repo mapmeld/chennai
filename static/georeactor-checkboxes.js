@@ -11,12 +11,14 @@ $(function() {
         map.removeLayer(downloaded_layers[layer_id]);
       }
     } else if (activate) {
+      $(e.currentTarget).prop('disabled', true);
       $.get(layer_id, function(data) {
         try {
           data = JSON.parse(data)
         } catch(e) {
         }
         downloaded_layers[layer_id] = mapJSONfile(data);
+        $(e.currentTarget).prop('disabled', false);
       });
     }
   });
