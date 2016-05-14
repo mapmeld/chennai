@@ -39,12 +39,14 @@ function setSelectFeature(feature) {
       .append(val)
       .appendTo("ul#properties");
   }
+  /*
   if ($("#loggedin").length) {
     $("<label>").text("Your Notes / குறிப்புகள்").appendTo("ul#properties");
     $("<textarea></textarea>")
       .val(feature.properties.userNote)
       .appendTo("ul#properties");
   }
+  */
   $("#save").show();
   if (savedIDs.indexOf(currentID) > -1) {
     $("#remove").show();
@@ -55,6 +57,7 @@ function setSelectFeature(feature) {
 
 $("#save").click(function () {
   // update user selection
+  /*
   var myNote = $("#properties textarea").val();
   selectFeature.setProperty("userNote", myNote);
   if ($("#loggedin").length) {
@@ -67,6 +70,7 @@ $("#save").click(function () {
       console.log("save response: " + response);
     });
   }
+    */
   if (savedIDs.indexOf(currentID) > -1) {
     return;
   }
