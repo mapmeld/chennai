@@ -14,19 +14,20 @@ notes = [];
     map = L.map(georeactor.div)
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
     new L.Hash(map);
+    map.attributionControl.setPrefix('');
 
     if (!georeactor.tiles || !georeactor.tiles.length) {
       osm = L.tileLayer('http://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; OpenStreetMap contributors',
         maxZoom: 17
-      });
+      }).addTo(map);
       sat = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapmeld.map-a6ineq7y/{z}/{x}/{y}.png?updated=65f7243', {
         attribution: 'Map data &copy; OpenStreetMap contributors; satellite from MapBox',
         maxZoom: 17
-      }).addTo(map);
+      });
       L.control.layers({
-        "Satellite": sat,
-        "OpenStreetMap": osm
+        "OpenStreetMap": osm,
+        "Satellite": sat
       }, {}).addTo(map);
       map.on('baselayerchange', function() {
         allFeatures.setStyle(updateVectorMap);
