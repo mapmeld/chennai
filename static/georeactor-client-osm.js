@@ -135,6 +135,7 @@ notes = [];
       if (typeof initSidebar === 'function') {
         initSidebar();
       }
+      return allFeatures;
     };
 
     function makeRequestFor(datafile) {

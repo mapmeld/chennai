@@ -150,6 +150,20 @@ app.get('/view/:mapid', function (req, res) {
   });
 });
 
+app.get('/layers', function (req, res) {
+  var myUser = { id: 'test' };
+  Map.find({}).limit(8).exec(function (err, maps) {
+    if (err) {
+      throw err;
+    }
+    res.render('layermap', {
+      user: myUser,
+      notes: [],
+      maps: maps
+    });
+  });
+});
+
 app.get('/plainmap', function (req, res) {
   var myUser;
   if (req.user) {

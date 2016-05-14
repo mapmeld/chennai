@@ -147,6 +147,12 @@ img.leaflet-tile {
   text-decoration: none;
 }
 
+.layer {
+  text-align: left;
+  padding: 6px;
+  border-top: 1px solid #444;
+}
+
 @media (max-width: 767px) {
   #sidebar {
     width: 100%;
