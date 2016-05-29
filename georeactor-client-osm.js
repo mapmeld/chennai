@@ -1,4 +1,5 @@
-var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat, mapJSONfile, clickCircle;
+var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat;
+var mapJSONfile, clickCircle;
 
 var notesById = {};
 if (typeof notes != 'undefined') {
@@ -154,7 +155,15 @@ notes = [];
 
     function makeRequestFor(datafile) {
       var df = datafile;
-      $.get(datafile, mapJSONfile);
+      if (datafile.toLowerCase().indexOf('.csv') > -1) {
+        $.get(datafile, function (csv) {
+          var rows = csv.split(/[\r\n]+/g);
+          
+        });
+      } else {
+        // GeoJSON or TopoJSON
+        $.get(datafile, mapJSONfile);
+      }
     }
     for (var d = 0; d < georeactor.data.length; d++) {
       makeRequestFor(georeactor.data[d]);
