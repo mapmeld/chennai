@@ -1,4 +1,4 @@
-var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat, mapJSONfile;
+var initMap, map, selectFeature, fitBounds, updateVectorMap, allFeatures, osm, sat, mapJSONfile, clickCircle;
 
 var notesById = {};
 if (typeof notes != 'undefined') {
@@ -118,6 +118,20 @@ notes = [];
         style: updateVectorMap,
         onEachFeature: function (feature, layer) {
           layer.on('click', function() {
+            if (clickCircle) {
+              map.removeLayer(clickCircle);
+            }
+
+            if(feature.geometry.type === 'Point') {
+              var coord = feature.geometry.coordinates.concat([]);
+              coord.reverse();
+              clickCircle = L.circleMarker(coord, {
+                radius: 80,
+                strokeColor: '#f00',
+                fillColor: '#f00'
+              }).addTo(map);
+            }
+
             fitBounds(feature.properties.bounds);
             selectFeature = feature;
             setSelectFeature(feature);

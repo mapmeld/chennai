@@ -10,6 +10,8 @@ html, body {
 #sidebar {
   width: 25%;
   height: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
   background: #fff;
   margin: 0;
   float: left;
