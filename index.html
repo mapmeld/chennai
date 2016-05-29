@@ -32,7 +32,24 @@
           <span>Panai Sur Land Area</span>
         </label>
       </div>
+      <h4>Boundaries</h4>
       <div class="layer">
+        <label>
+          <input type="checkbox" name="//52.31.147.235/dataset/a0759a0b-f88c-467b-a7f2-757e962b5c41/resource/f62d9b15-b1ad-4127-930d-8056f0d39dff/download/chennai-metro-area.geojson"/>
+          <span>Chennai Metro Area</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="//52.31.147.235/dataset/a0759a0b-f88c-467b-a7f2-757e962b5c41/resource/6a60bbab-29b5-411a-a359-d2201c39542d/download/chennai-zones.geojson"/>
+          <span>Chennai Zones</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="//52.31.147.235/dataset/a0759a0b-f88c-467b-a7f2-757e962b5c41/resource/7b3e35b2-c8cf-4994-84bc-fdf7c16f74bd/download/chennai-wards.geojson"/>
+          <span>Chennai Wards</span>
+        </label>
       </div>
       <ul id="properties">
       </ul>
@@ -49,13 +66,13 @@
     <script type="text/javascript" src="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+    <script type="text/javascript" src="lib/leaflet.hash.js"></script>
 
     <script type="text/javascript">
       var georeactor = { map: "leaflet", div: "map", lat: 13.0907, lng: 80.2318, zoom: 12, data: []};
       var notes = [];
     </script>
 
-    <script type="text/javascript" src="lib/leaflet.hash.js"></script>
     <script type="text/javascript" src="georeactor-client-osm.js"></script>
     <script type="text/javascript" src="georeactor-layers-osm.js"></script>
     <script type="text/javascript" src="georeactor-checkboxes.js"></script>

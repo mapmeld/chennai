@@ -156,9 +156,36 @@ notes = [];
     function makeRequestFor(datafile) {
       var df = datafile;
       if (datafile.toLowerCase().indexOf('.csv') > -1) {
-        $.get(datafile, function (csv) {
-          var rows = csv.split(/[\r\n]+/g);
-          
+        $.get(datafile, function(data) {
+          var rows = data.split(/[\r\n]+/g);
+
+          data = {
+            type: 'FeatureCollection',
+            features: []
+          };
+
+          var headers = rows[0].toLowerCase().split(',');
+          var latitude = headers.indexOf('latitude');
+          var longitude = headers.indexOf('longitude');
+
+          for (var r = 1; r < rows.length; r++) {
+            var row = rows[r].split(',');
+            var props = {};
+            for (var column = 0; column < row.length; column++) {
+              if (column !== latitude && column !== longitude) {
+                props[headers[column]] = row[column];
+              }
+            }
+            data.features.push({
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [row[longitude] * 1, row[latitude] * 1]
+              },
+              properties: props
+            });
+          }
+          mapJSONfile(data);
         });
       } else {
         // GeoJSON or TopoJSON
@@ -192,7 +219,7 @@ notes = [];
       fillColor: '#f00',
       fillOpacity: 0,
       color: '#444',
-      weight: 1
+      weight: 2
     }
     if (typeof savedIDs === 'object' && savedIDs.length && savedIDs.indexOf(feature.properties.SUR_ID) > -1) {
       props.fillColor = '#00f';

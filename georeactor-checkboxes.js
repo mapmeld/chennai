@@ -16,36 +16,38 @@ $(function() {
         try {
           data = JSON.parse(data)
         } catch(e) {
-          var rows = data.split(/[\r\n]+/g);
+          layer_id = layer_id.toLowerCase();
+          if (layer_id.indexOf('.csv') > -1) {
+            var rows = data.split(/[\r\n]+/g);
 
-          data = {
-            type: 'FeatureCollection',
-            features: []
-          };
+            data = {
+              type: 'FeatureCollection',
+              features: []
+            };
 
-          var headers = rows[0].toLowerCase().split(',');
-          var latitude = headers.indexOf('latitude');
-          var longitude = headers.indexOf('longitude');
+            var headers = rows[0].toLowerCase().split(',');
+            var latitude = headers.indexOf('latitude');
+            var longitude = headers.indexOf('longitude');
 
-          for (var r = 1; r < rows.length; r++) {
-            var row = rows[r].split(',');
-            var props = {};
-            for (var column = 0; column < row.length; column++) {
-              if (column !== latitude && column !== longitude) {
-                props[headers[column]] = row[column];
+            for (var r = 1; r < rows.length; r++) {
+              var row = rows[r].split(',');
+              var props = {};
+              for (var column = 0; column < row.length; column++) {
+                if (column !== latitude && column !== longitude) {
+                  props[headers[column]] = row[column];
+                }
               }
+              data.features.push({
+                type: 'Feature',
+                geometry: {
+                  type: 'Point',
+                  coordinates: [row[longitude] * 1, row[latitude] * 1]
+                },
+                properties: props
+              });
             }
-            data.features.push({
-              type: 'Feature',
-              geometry: {
-                type: 'Point',
-                coordinates: [row[longitude] * 1, row[latitude] * 1]
-              },
-              properties: props
-            });
           }
         }
-        console.log(data);
         downloaded_layers[layer_id] = mapJSONfile(data);
         $(e.currentTarget).prop('disabled', false);
       });
