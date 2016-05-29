@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>Chennai Data Portal</title>
+    <link rel="stylesheet" type="text/css" href="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+    <div id="sidebar">
+      <h3>Chennai Data</h3>
+      <!--
+        <h4 id="loading">Loading...</h4>
+      -->
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="https://s3-ap-southeast-1.amazonaws.com/chennai-test/maps/1450768775025">
+          <span>Panai Sur</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="https://s3-ap-southeast-1.amazonaws.com/chennai-test/maps/1450869736738">
+          <span>test</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="https://s3-ap-southeast-1.amazonaws.com/chennai-test/1451367695457">
+          <span>traced-map</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="https://s3-ap-southeast-1.amazonaws.com/chennai-test/1451537929147">
+          <span>Heritage Points</span>
+        </label>
+      </div>
+      <div class="layer">
+        <label>
+          <input type="checkbox" name="https://s3-ap-southeast-1.amazonaws.com/chennai-test/1451556842686">
+            <span>Bus stops</span>
+        </label>
+      </div>
+      <div class="layer">
+      </div>
+      <ul id="properties">
+      </ul>
+      <!--
+        <button id="save" class="btn">Save</button>
+        <button id="remove" class="btn">Remove</button>
+        <ul id="saved">
+        </ul>
+      -->
+    </div>
+    <div id="map">
+    </div>
+
+    <script type="text/javascript" src="//cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
+
+    <script type="text/javascript">
+      var georeactor = { map: "leaflet", div: "map", data: []};
+      var notes = [];
+    </script>
+
+    <script type="text/javascript" src="lib/leaflet.hash.js"></script>
+    <script type="text/javascript" src="georeactor-client-osm.js"></script>
+    <script type="text/javascript" src="georeactor-layers-osm.js"></script>
+    <script type="text/javascript" src="georeactor-checkboxes.js"></script>
+  </body>
+</html>
