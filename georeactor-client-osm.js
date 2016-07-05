@@ -86,6 +86,9 @@ notes = [];
 
       // get info on bounds and properties for each data file
       for (var f = 0; f < gj.features.length; f++) {
+        if (!gj.features[f].geometry) {
+          continue;
+        }
         var bounds = makeBounds(gj.features[f].geometry.coordinates);
         gj.features[f].properties.bounds = bounds;
         if (!globalBounds) {
