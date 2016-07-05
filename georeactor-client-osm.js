@@ -115,9 +115,18 @@ notes = [];
       }
       fitBounds(globalBounds);
 
+      var clusters = L.markerClusterGroup();
+      map.addLayer(clusters);
+
       allFeatures = L.geoJson(gj, {
         style: updateVectorMap,
         onEachFeature: function (feature, layer) {
+          if (feature.geometry.type === 'Point') {
+            clusters.addLayer(layer);
+          } else {
+            map.addLayer(layer);
+          }
+
           layer.on('click', function() {
             if (clickCircle) {
               map.removeLayer(clickCircle);
@@ -139,7 +148,8 @@ notes = [];
             allFeatures.setStyle(updateVectorMap);
           });
         }
-      }).addTo(map);
+      });
+
       if (typeof setSelectFeature === 'function') {
         map.on('click', function(event) {
           selectFeature = null;
@@ -158,7 +168,6 @@ notes = [];
       if (datafile.toLowerCase().indexOf('.csv') > -1) {
         $.get(datafile, function(data) {
           var rows = data.split(/[\r\n]+/g);
-
           data = {
             type: 'FeatureCollection',
             features: []
