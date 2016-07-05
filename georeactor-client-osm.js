@@ -115,7 +115,10 @@ notes = [];
       }
       fitBounds(globalBounds);
 
-      var clusters = L.markerClusterGroup();
+      var clusters = L.markerClusterGroup({
+        disableClusteringAtZoom: 15,
+        spiderfyOnMaxZoom: true
+      });
       map.addLayer(clusters);
 
       allFeatures = L.geoJson(gj, {
