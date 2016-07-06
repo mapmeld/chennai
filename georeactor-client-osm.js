@@ -12,7 +12,9 @@ notes = [];
 (function() {
   initMap = function() {
 
-    map = L.map(georeactor.div)
+    map = L.map(georeactor.div, {
+      maxBounds: L.latLngBounds(L.latLng(12.7100, 79.8850), L.latLng(13.5152, 80.6623))
+    })
       .setView([georeactor.lat || 0, georeactor.lng || 0], georeactor.zoom || 5);
     new L.Hash(map);
     map.attributionControl.setPrefix('');
