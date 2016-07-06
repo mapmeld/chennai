@@ -122,13 +122,18 @@ notes = [];
         disableClusteringAtZoom: 15,
         spiderfyOnMaxZoom: true
       });
+      var usingClusters = false;
       map.addLayer(clusters);
 
       allFeatures = L.geoJson(gj, {
         style: updateVectorMap,
         onEachFeature: function (feature, layer) {
           if (feature.geometry.type === 'Point') {
+            if (!feature.geometry.coordinates[0] || !feature.geometry.coordinates[1]) {
+              return;
+            }
             clusters.addLayer(layer);
+            usingClusters = true;
           } else {
             map.addLayer(layer);
           }
@@ -166,7 +171,7 @@ notes = [];
       if (typeof initSidebar === 'function') {
         initSidebar();
       }
-      return allFeatures;
+      return (usingClusters && clusters) || allFeatures;
     };
 
     function makeRequestFor(datafile) {
