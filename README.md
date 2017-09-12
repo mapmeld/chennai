@@ -1,5 +1,7 @@
 ## Chennai Data Atlas
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mapmeld/chennai-data-atlas.svg)](https://greenkeeper.io/)
+
 - Upload and display multiple map layers
 - Sign-in with Google
 - Users can comment on sources
