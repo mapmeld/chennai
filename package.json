@@ -22,17 +22,17 @@
     "body-parser": "^1.14.2",
     "compression": "^1.6.0",
     "cookie-parser": "^1.4.0",
-    "crypto": "0.0.3",
+    "crypto": "1.0.1",
     "csurf": "^1.8.3",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "jade": "^1.11.0",
     "mongoose": "^4.3.3",
     "multer": "^1.1.0",
-    "multer-s3": "^1.4.1",
-    "passport": "^0.3.2",
+    "multer-s3": "^2.7.0",
+    "passport": "^0.4.0",
     "passport-google-oauth2": "^0.1.6",
     "passport-local": "^1.0.0",
-    "togeojson": "^0.13.0"
+    "togeojson": "^0.16.0"
   }
 }
