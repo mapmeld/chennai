@@ -13,7 +13,7 @@ html
       ul#layers
         for map in maps
           li
-            a(href="/view/#{map._id}") #{map.name || 'Parcel Map'}
+            a(href="/view/" + map._id) #{map.name || 'Parcel Map'}
       h4 Upload Maps
       if user
         small We can map GeoJSON, TopoJSON, and shapefiles (SHP)

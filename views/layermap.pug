@@ -23,7 +23,7 @@ html
       for map in maps
         .layer
           label
-            input(type="checkbox", name="#{map.datafiles[0]}")
+            input(type="checkbox", name=map.datafiles[0])
             span #{map.name}
       .layer
       ul#properties

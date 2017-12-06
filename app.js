@@ -1,16 +1,16 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var session = require("express-session");
-var compression = require("compression");
-var mongoose = require("mongoose");
-var passport = require("passport");
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
-var User = require('./models/user.js');
-var Note = require('./models/note.js');
-var Map = require('./models/map.js');
-var multer = require('multer');
-var ms3 = require('multer-s3');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const compression = require("compression");
+const mongoose = require("mongoose");
+const passport = require("passport");
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const User = require('./models/user.js');
+const Note = require('./models/note.js');
+const Map = require('./models/map.js');
+const multer = require('multer');
+//var ms3 = require('multer-s3');
 
 var AWS = require('aws-sdk');
 AWS.config.secretAccessKey = process.env.AWS_SECRET_KEY;
@@ -35,7 +35,7 @@ var upload = multer({
 
 var app = express();
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(express['static'](__dirname + '/static'));
 app.use(bodyParser({ limit: '50mb' }));
 //app.use(bodyParser.json());
